@@ -2,14 +2,17 @@ package com.example.android.quakereport;
 
 public class Earthquake {
 
-    // Magnitude
-    private String mMagnitude;
+    /** Magnitude of the earthquake */
+    private double mMagnitude;
     
     // Place of Earthquake
     private String mPlace;
 
-    // date of earthquake
-    private String mDate;
+    /** Time of the earthquake */
+    private long mTimeInMilliseconds;
+
+    // Place of Earthquake
+    private String mUrl;
 
     
 
@@ -20,11 +23,20 @@ public class Earthquake {
      * @param vNumber is the corresponding Android version number (e.g. 2.3-2.7)
      * @param image is drawable reference ID that corresponds to the Android version
      * */
-    public Earthquake(String magnitude, String place, String date)
+    public Earthquake(double magnitude, String place, long TimeInMilliseconds, String url)
     {
         mPlace = place;
-        mDate = date;
+        mTimeInMilliseconds = TimeInMilliseconds;
         mMagnitude = magnitude;
+        mUrl = url;
+    }
+
+
+    /**
+     * Get Magnitude
+     */
+    public double getMagnitude() {
+        return mMagnitude;
     }
 
     /**
@@ -35,17 +47,15 @@ public class Earthquake {
     }
 
     /**
-     * Get the date of the earthquake
+     /**
+     * Returns the time of the earthquake.
      */
-    public String getDate() {
-        return mDate;
+    public long getTimeInMilliseconds() {
+        return mTimeInMilliseconds;
     }
 
-    /**
-     * Get the image resource ID
-     */
-    public String getMagnitude() {
-        return mMagnitude;
+    public String getUrl() {
+        return mUrl;
     }
 
 
