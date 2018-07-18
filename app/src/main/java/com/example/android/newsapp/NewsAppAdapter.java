@@ -1,4 +1,4 @@
-package com.example.android.quakereport;
+package com.example.android.newsapp;
 
 
 import android.app.Activity;
@@ -22,9 +22,9 @@ import android.graphics.drawable.GradientDrawable;
  * */
 
 
-public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
+public class NewsAppAdapter extends ArrayAdapter<NewsApp> {
 
-    private static final String LOG_TAG = EarthquakeAdapter.class.getSimpleName();
+    private static final String LOG_TAG = NewsAppAdapter.class.getSimpleName();
     private static final String LOCATION_SEPARATOR = " of ";
 
     /**
@@ -35,7 +35,7 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
      * @param context        The current context. Used to inflate the layout file.
      * @param androidFlavors A List of AndroidFlavor objects to display in a list
      */
-    public EarthquakeAdapter(Activity context, ArrayList<Earthquake> androidFlavors) {
+    public NewsAppAdapter(Activity context, ArrayList<NewsApp> androidFlavors) {
         // Here, we initialize the ArrayAdapter's internal storage for the context and the list.
         // the second argument is used when the ArrayAdapter is populating a single TextView.
         // Because this is a custom adapter for two TextViews and an ImageView, the adapter is not
@@ -62,9 +62,9 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         }
 
         // Get the {@link AndroidFlavor} object located at this position in the list
-        Earthquake currentEarthquake = getItem(position);
+        NewsApp currentNewsApp = getItem(position);
 
-        String originalLocation = currentEarthquake.getPlace();
+        String originalLocation = currentNewsApp.getPlace();
 
         String primaryLocation;
         String locationOffset;
@@ -82,22 +82,22 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
 
         // Find the TextView in the listview_earthquakeearthquake.xml layout with the ID version_number
-        TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.magnitude);
+        //TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.magnitude);
         // Get the version number from the current AndroidFlavor object and
         // set this text on the number TextView
-        String formattedMagnitude = formatMagnitude(currentEarthquake.getMagnitude());
+        //String formattedMagnitude = formatMagnitude(currentNewsApp.getMagnitude());
         // Display the magnitude of the current earthquake in that TextView
-        magnitudeTextView.setText(formattedMagnitude);
+        //magnitudeTextView.setText(formattedMagnitude);
 
         // Set the proper background color on the magnitude circle.
         // Fetch the background from the TextView, which is a GradientDrawable.
-        GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeTextView.getBackground();
+        //GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeTextView.getBackground();
 
         // Get the appropriate background color based on the current earthquake magnitude
-        int magnitudeColor = getMagnitudeColor(currentEarthquake.getMagnitude());
+       //int magnitudeColor = getMagnitudeColor(currentNewsApp.getMagnitude());
 
         // Set the color on the magnitude circle
-        magnitudeCircle.setColor(magnitudeColor);
+        //magnitudeCircle.setColor(magnitudeColor);
 
 
         TextView primaryLocationView = (TextView) listItemView.findViewById(R.id.primary_location);
@@ -107,21 +107,21 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         locationOffsetView.setText(locationOffset);
 
         // Create a new Date object from the time in milliseconds of the earthquake
-        Date dateObject = new Date(currentEarthquake.getTimeInMilliseconds());
+        //Date dateObject = new Date(currentNewsApp.getTimeInMilliseconds());
 
         // Find the TextView with view ID date
-        TextView dateView = (TextView) listItemView.findViewById(R.id.date);
+        //TextView dateView = (TextView) listItemView.findViewById(R.id.date);
         // Format the date string (i.e. "Mar 3, 1984")
-        String formattedDate = formatDate(dateObject);
+        //String formattedDate = formatDate(dateObject);
         // Display the date of the current earthquake in that TextView
-        dateView.setText(formattedDate);
+        //dateView.setText(formattedDate);
 
         // Find the TextView with view ID time
-        TextView timeView = (TextView) listItemView.findViewById(R.id.time);
+        //TextView timeView = (TextView) listItemView.findViewById(R.id.time);
         // Format the time string (i.e. "4:30PM")
-        String formattedTime = formatTime(dateObject);
+       // String formattedTime = formatTime(dateObject);
         // Display the time of the current earthquake in that TextView
-        timeView.setText(formattedTime);
+        //timeView.setText(formattedTime);
 
 
         // Return the whole list item layout (containing 2 TextViews and an ImageView)

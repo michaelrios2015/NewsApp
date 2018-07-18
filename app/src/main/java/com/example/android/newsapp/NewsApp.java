@@ -1,17 +1,17 @@
-package com.example.android.quakereport;
+package com.example.android.newsapp;
 
-public class Earthquake {
+public class NewsApp {
 
     /** Magnitude of the earthquake */
-    private double mMagnitude;
+    private String mMagnitude;
     
-    // Place of Earthquake
+    // Place of NewsApp
     private String mPlace;
 
     /** Time of the earthquake */
-    private long mTimeInMilliseconds;
+    private String mTimeInMilliseconds;
 
-    // Place of Earthquake
+    // Place of NewsApp
     private String mUrl;
 
     
@@ -23,11 +23,11 @@ public class Earthquake {
      * @param vNumber is the corresponding Android version number (e.g. 2.3-2.7)
      * @param image is drawable reference ID that corresponds to the Android version
      * */
-    public Earthquake(double magnitude, String place, long TimeInMilliseconds, String url)
+    public NewsApp(String place, String url)
     {
         mPlace = place;
-        mTimeInMilliseconds = TimeInMilliseconds;
-        mMagnitude = magnitude;
+        //mTimeInMilliseconds = TimeInMilliseconds;
+        //mMagnitude = magnitude;
         mUrl = url;
     }
 
@@ -35,7 +35,7 @@ public class Earthquake {
     /**
      * Get Magnitude
      */
-    public double getMagnitude() {
+    public String getMagnitude() {
         return mMagnitude;
     }
 
@@ -50,7 +50,7 @@ public class Earthquake {
      /**
      * Returns the time of the earthquake.
      */
-    public long getTimeInMilliseconds() {
+    public String getTimeInMilliseconds() {
         return mTimeInMilliseconds;
     }
 

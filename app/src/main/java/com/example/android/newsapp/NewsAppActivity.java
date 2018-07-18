@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.quakereport;
+package com.example.android.newsapp;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -34,19 +33,22 @@ import java.util.List;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Loader;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class EarthquakeActivity extends AppCompatActivity implements LoaderCallbacks<List<Earthquake>> {
+public class NewsAppActivity extends AppCompatActivity implements LoaderCallbacks<List<NewsApp>> {
 
 
-    private static final String LOG_TAG = EarthquakeActivity.class.getName();
+    private static final String LOG_TAG = NewsAppActivity.class.getName();
 
     /**
      * URL for earthquake data from the USGS dataset
      */
     private static final String USGS_REQUEST_URL =
-            "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=6&limit=10";
+            "http://content.guardianapis.com/search?q=debates&api-key=test";
+
+   // private static final String USGS_REQUEST_URL2 =
+            //"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=6&limit=10";
+
 
     /**
      * Constant value for the earthquake loader ID. We can choose any integer.
@@ -57,7 +59,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
     /**
      * Adapter for the list of earthquakes
      */
-    private EarthquakeAdapter mAdapter;
+    private NewsAppAdapter mAdapter;
 
     private TextView mEmptyStateTextView;
 
@@ -72,7 +74,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
         // Create a new adapter that takes an empty list of earthquakes as input
-        mAdapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
+        mAdapter = new NewsAppAdapter(this, new ArrayList<NewsApp>());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
@@ -88,10 +90,10 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 // Find the current earthquake that was clicked on
-                Earthquake currentEarthquake = mAdapter.getItem(position);
+                NewsApp currentNewsApp = mAdapter.getItem(position);
 
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
-                Uri earthquakeUri = Uri.parse(currentEarthquake.getUrl());
+                Uri earthquakeUri = Uri.parse(currentNewsApp.getUrl());
 
                 // Create a new intent to view the earthquake URI
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
@@ -131,15 +133,15 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
 
     @Override
-    public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
+    public Loader<List<NewsApp>> onCreateLoader(int i, Bundle bundle) {
         // Create a new loader for the given URL
         Log.e("LOAD", "Creating");
-        return new EarthquakeLoader(this, USGS_REQUEST_URL);
+        return new NewsAppLoader(this, USGS_REQUEST_URL);
 
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
+    public void onLoadFinished(Loader<List<NewsApp>> loader, List<NewsApp> newsApps) {
         // Clear the adapter of previous earthquake data
         Log.e("LOAD", "Finished");
         mAdapter.clear();
@@ -149,15 +151,15 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
         loadingIndicator.setVisibility(View.GONE);
 
         mEmptyStateTextView.setText(R.string.no_earthquakes);
-        // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
+        // If there is a valid list of {@link NewsApp}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
-        if (earthquakes != null && !earthquakes.isEmpty()) {
-            mAdapter.addAll(earthquakes);
+        if (newsApps != null && !newsApps.isEmpty()) {
+            mAdapter.addAll(newsApps);
         }
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Earthquake>> loader) {
+    public void onLoaderReset(Loader<List<NewsApp>> loader) {
         // Loader reset, so we can clear out our existing data.
         Log.e("LOAD", "Reset");
         mAdapter.clear();

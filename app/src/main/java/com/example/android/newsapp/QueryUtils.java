@@ -1,4 +1,4 @@
-package com.example.android.quakereport;
+package com.example.android.newsapp;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,7 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -38,9 +37,9 @@ public final class QueryUtils {
     }
 
     /**
-     * Query the USGS dataset and return a list of {@link Earthquake} objects.
+     * Query the USGS dataset and return a list of {@link NewsApp} objects.
      */
-    public static List<Earthquake> fetchEarthquakeData(String requestUrl) {
+    public static List<NewsApp> fetchEarthquakeData(String requestUrl) {
 
 
 
@@ -56,30 +55,30 @@ public final class QueryUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        // Extract relevant fields from the JSON response and create a list of {@link Earthquake}s
-        List<Earthquake> earthquakes = extractFeatureFromJson(jsonResponse);
+        // Extract relevant fields from the JSON response and create a list of {@link NewsApp}s
+        List<NewsApp> newsApps = extractFeatureFromJson(jsonResponse);
 
-        // Return the list of {@link Earthquake}s
-        return earthquakes;
+        // Return the list of {@link NewsApp}s
+        return newsApps;
     }
 
 
 
 
     /**
-     * Return a list of {@link Earthquake} objects that has been built up from
+     * Return a list of {@link NewsApp} objects that has been built up from
      * parsing the given JSON response.
 
 
      */
-    private static List<Earthquake> extractFeatureFromJson(String earthquakeJSON) {
+    private static List<NewsApp> extractFeatureFromJson(String earthquakeJSON) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(earthquakeJSON)) {
             return null;
         }
 
-        // Create an empty ArrayList that we can start adding earthquakes to
-        List<Earthquake> earthquakes = new ArrayList<>();
+        // Create an empty ArrayList that we can start adding newsApps to
+        List<NewsApp> newsApps = new ArrayList<>();
 
         // Try to parse the JSON response string. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
@@ -88,40 +87,51 @@ public final class QueryUtils {
 
             // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(earthquakeJSON);
-
+            Log.e("HERE", "START JSON: " + baseJsonResponse );
             // Extract the JSONArray associated with the key called "features",
-            // which represents a list of features (or earthquakes).
-            JSONArray earthquakeArray = baseJsonResponse.getJSONArray("features");
+            // which represents a list of features (or newsApps).
+            JSONObject secondJsonResponse = baseJsonResponse.getJSONObject("response");
+            Log.e("HERE", "SECOND JSON: " + secondJsonResponse );
 
-            // For each earthquake in the earthquakeArray, create an {@link Earthquake} object
-            for (int i = 0; i < earthquakeArray.length(); i++) {
+            JSONArray earthquakeArray = secondJsonResponse.getJSONArray("results");
+            Log.e("HERE RESULTS", "Results: " + earthquakeArray );
 
-                // Get a single earthquake at position i within the list of earthquakes
+            //JSONObject properties = currentEarthquake.getJSONObject("properties");
+
+            //JSONObject currentEarthquake = earthquakeArray.getJSONObject(0);
+            //String location = currentEarthquake.getString("webTitle");
+            //Log.e("HERE WebTitle", "Results: " + location );
+
+
+            // For each earthquake in the earthquakeArray, create an {@link NewsApp} object
+           for (int i = 0; i < earthquakeArray.length(); i++) {
+
+                // Get a single newsApp at position i within the list of newsApps
                 JSONObject currentEarthquake = earthquakeArray.getJSONObject(i);
 
-                // For a given earthquake, extract the JSONObject associated with the
+                // For a given newsApp, extract the JSONObject associated with the
                 // key called "properties", which represents a list of all properties
-                // for that earthquake.
-                JSONObject properties = currentEarthquake.getJSONObject("properties");
+                // for that newsApp.
+                //JSONObject properties = currentEarthquake.getJSONObject("properties");
 
                 // Extract the value for the key called "mag"
-                double magnitude = properties.getDouble("mag");
+                //double magnitude = properties.getDouble("mag");
 
                 // Extract the value for the key called "place"
-                String location = properties.getString("place");
+                String location = currentEarthquake.getString("webTitle");
 
                 // Extract the value for the key called "time"
-                long time = properties.getLong("time");
+                //long time = properties.getLong("time");
 
                 // Extract the value for the key called "url"
-                String url = properties.getString("url");
+                String url = currentEarthquake.getString("webUrl");
 
-                // Create a new {@link Earthquake} object with the magnitude, location, time,
+                // Create a new {@link NewsApp} object with the magnitude, location, time,
                 // and url from the JSON response.
-                Earthquake earthquake = new Earthquake(magnitude, location, time, url);
+                NewsApp newsApp = new NewsApp(location, url);
 
-                // Add the new {@link Earthquake} to the list of earthquakes.
-                earthquakes.add(earthquake);
+                // Add the new {@link NewsApp} to the list of newsApps.
+                newsApps.add(newsApp);
             }
 
         } catch (JSONException e) {
@@ -131,8 +141,8 @@ public final class QueryUtils {
             Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
         }
 
-        // Return the list of earthquakes
-        return earthquakes;
+        // Return the list of newsApps
+        return newsApps;
     }
 
     /**
