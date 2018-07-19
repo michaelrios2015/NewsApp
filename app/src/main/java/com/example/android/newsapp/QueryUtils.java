@@ -39,9 +39,7 @@ public final class QueryUtils {
     /**
      * Query the USGS dataset and return a list of {@link NewsApp} objects.
      */
-    public static List<NewsApp> fetchEarthquakeData(String requestUrl) {
-
-
+    public static List<NewsApp> fetchNewsAppData(String requestUrl) {
 
         Log.e("LOAD", "fetch");
         // Create URL object
@@ -62,18 +60,15 @@ public final class QueryUtils {
         return newsApps;
     }
 
-
-
-
     /**
      * Return a list of {@link NewsApp} objects that has been built up from
      * parsing the given JSON response.
 
 
      */
-    private static List<NewsApp> extractFeatureFromJson(String earthquakeJSON) {
+    private static List<NewsApp> extractFeatureFromJson(String newsAppJSON) {
         // If the JSON string is empty or null, then return early.
-        if (TextUtils.isEmpty(earthquakeJSON)) {
+        if (TextUtils.isEmpty(newsAppJSON)) {
             return null;
         }
 
@@ -86,15 +81,15 @@ public final class QueryUtils {
         try {
 
             // Create a JSONObject from the JSON response string
-            JSONObject baseJsonResponse = new JSONObject(earthquakeJSON);
+            JSONObject baseJsonResponse = new JSONObject(newsAppJSON);
             Log.e("HERE", "START JSON: " + baseJsonResponse );
             // Extract the JSONArray associated with the key called "features",
             // which represents a list of features (or newsApps).
             JSONObject secondJsonResponse = baseJsonResponse.getJSONObject("response");
             Log.e("HERE", "SECOND JSON: " + secondJsonResponse );
 
-            JSONArray earthquakeArray = secondJsonResponse.getJSONArray("results");
-            Log.e("HERE RESULTS", "Results: " + earthquakeArray );
+            JSONArray newsAppArray = secondJsonResponse.getJSONArray("results");
+            Log.e("HERE RESULTS", "Results: " + newsAppArray );
 
             //JSONObject properties = currentEarthquake.getJSONObject("properties");
 
@@ -104,10 +99,11 @@ public final class QueryUtils {
 
 
             // For each earthquake in the earthquakeArray, create an {@link NewsApp} object
-           for (int i = 0; i < earthquakeArray.length(); i++) {
+           for (int i = 0; i < newsAppArray.length(); i++) {
 
+               Log.e("HERE ", "For Loop ");
                 // Get a single newsApp at position i within the list of newsApps
-                JSONObject currentEarthquake = earthquakeArray.getJSONObject(i);
+                JSONObject currentNewsApp = newsAppArray.getJSONObject(i);
 
                 // For a given newsApp, extract the JSONObject associated with the
                 // key called "properties", which represents a list of all properties
@@ -115,20 +111,26 @@ public final class QueryUtils {
                 //JSONObject properties = currentEarthquake.getJSONObject("properties");
 
                 // Extract the value for the key called "mag"
-                //double magnitude = properties.getDouble("mag");
+               //String section = "section";
+               String section = currentNewsApp.getString("sectionName");
+               Log.e("HERE Section", "Results: " + section );
 
                 // Extract the value for the key called "place"
-                String location = currentEarthquake.getString("webTitle");
+                String location = currentNewsApp.getString("webTitle");
 
                 // Extract the value for the key called "time"
                 //long time = properties.getLong("time");
 
                 // Extract the value for the key called "url"
-                String url = currentEarthquake.getString("webUrl");
+                String url = currentNewsApp.getString("webUrl");
 
-                // Create a new {@link NewsApp} object with the magnitude, location, time,
+               String date = currentNewsApp.getString("webPublicationDate");
+               Log.e("HERE DATE", "Results: " + date );
+
+
+               // Create a new {@link NewsApp} object with the magnitude, location, time,
                 // and url from the JSON response.
-                NewsApp newsApp = new NewsApp(location, url);
+                NewsApp newsApp = new NewsApp(section, location, url, date);
 
                 // Add the new {@link NewsApp} to the list of newsApps.
                 newsApps.add(newsApp);
@@ -138,7 +140,7 @@ public final class QueryUtils {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            Log.e("QueryUtils", "Problem parsing the guardian JSON results", e);
         }
 
         // Return the list of newsApps
@@ -186,7 +188,7 @@ public final class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the gaurdian JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
