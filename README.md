@@ -1,3 +1,5 @@
+Modified from this guy:
+
 Quake Report App
 ===================================
 
