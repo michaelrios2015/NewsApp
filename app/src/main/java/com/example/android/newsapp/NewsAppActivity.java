@@ -44,7 +44,7 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
      * URL for earthquake data from the USGS dataset
      */
     private static final String USGS_REQUEST_URL =
-            "http://content.guardianapis.com/search?q=debates&api-key=0c3390e8-f337-4ad6-a644-2221603f91c6";
+            "http://content.guardianapis.com/search?q=debates&api-key=test";
 
 
     /**
