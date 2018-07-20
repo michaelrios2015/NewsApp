@@ -2,12 +2,14 @@ package com.example.android.newsapp;
 
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,26 +64,13 @@ public class NewsAppAdapter extends ArrayAdapter<NewsApp> {
 
         String title = currentNewsApp.getTitle();
         String section = currentNewsApp.getSection();
+
         String date = currentNewsApp.getDate();
+        date = date.split("T")[0];
 
-        // Find the TextView in the listview_earthquakeearthquake.xml layout with the ID version_number
-        //TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.magnitude);
-        // Get the version number from the current AndroidFlavor object and
-        // set this text on the number TextView
-        //String formattedMagnitude = formatMagnitude(currentNewsApp.getMagnitude());
-        // Display the magnitude of the current earthquake in that TextView
-        //magnitudeTextView.setText(formattedMagnitude);
-
-        // Set the proper background color on the magnitude circle.
-        // Fetch the background from the TextView, which is a GradientDrawable.
-        //GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeTextView.getBackground();
-
-        // Get the appropriate background color based on the current earthquake magnitude
-       //int magnitudeColor = getMagnitudeColor(currentNewsApp.getMagnitude());
-
-        // Set the color on the magnitude circle
-        //magnitudeCircle.setColor(magnitudeColor);
-
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat(date);
+        //Log.e("HERE", "DATE " + SimpleDateFormat());
+        //Date dateObject = new Date(currentNewsApp.getDate());
 
         TextView newsTitle = (TextView) listItemView.findViewById(R.id.primary_location);
         //primaryLocationView.setText(section);
@@ -90,13 +79,11 @@ public class NewsAppAdapter extends ArrayAdapter<NewsApp> {
         TextView newsSection = (TextView) listItemView.findViewById(R.id.location_offset);
         newsSection.setText(section);
 
-        // Create a new Date object from the time in milliseconds of the earthquake
-        //Date dateObject = new Date(currentNewsApp.getTimeInMilliseconds());
 
         // Find the TextView with view ID date
-        TextView dateView = (TextView) listItemView.findViewById(R.id.date);
-        dateView.setText(date);
-        // Format the date string (i.e. "Mar 3, 1984")
+        //TextView dateView = (TextView) listItemView.findViewById(R.id.date);
+        //dateView.setText(date);
+        //Format the date string (i.e. "Mar 3, 1984")
         //String formattedDate = formatDate(dateObject);
         // Display the date of the current earthquake in that TextView
         //dateView.setText(formattedDate);

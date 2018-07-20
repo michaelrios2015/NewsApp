@@ -147,7 +147,7 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
 
-        mEmptyStateTextView.setText(R.string.no_earthquakes);
+        mEmptyStateTextView.setText(R.string.no_newsapps);
         // If there is a valid list of {@link NewsApp}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (newsApps != null && !newsApps.isEmpty()) {
