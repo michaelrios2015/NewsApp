@@ -81,8 +81,8 @@ public class NewsAppAdapter extends ArrayAdapter<NewsApp> {
 
 
         // Find the TextView with view ID date
-        //TextView dateView = (TextView) listItemView.findViewById(R.id.date);
-        //dateView.setText(date);
+        TextView dateView = (TextView) listItemView.findViewById(R.id.date);
+        dateView.setText(date);
         //Format the date string (i.e. "Mar 3, 1984")
         //String formattedDate = formatDate(dateObject);
         // Display the date of the current earthquake in that TextView
