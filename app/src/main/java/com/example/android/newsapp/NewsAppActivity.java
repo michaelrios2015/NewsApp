@@ -41,20 +41,20 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
     private static final String LOG_TAG = NewsAppActivity.class.getName();
 
     /**
-     * URL for earthquake data from the USGS dataset
+     * URL for Guardian data from the Guardian API
      */
     private static final String USGS_REQUEST_URL =
-            "http://content.guardianapis.com/search?q=debates&api-key=test";
+            "https://content.guardianapis.com/search?section=technology&show-tags=contributor&show-fields=thumbnail&api-key=test";
 
 
     /**
-     * Constant value for the earthquake loader ID. We can choose any integer.
+     * Constant value for the NewsApp loader ID. We can choose any integer.
      * This really only comes into play if you're using multiple loaders.
      */
     private static final int NEWSAPP_LOADER_ID = 1;
 
     /**
-     * Adapter for the list of earthquakes
+     * Adapter for the list of articles
      */
     private NewsAppAdapter mAdapter;
 
@@ -70,7 +70,7 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
         // Find a reference to the {@link ListView} in the layout
         ListView NewsAppListView = (ListView) findViewById(R.id.list);
 
-        // Create a new adapter that takes an empty list of earthquakes as input
+        // Create a new adapter that takes an empty list of articles as input
         mAdapter = new NewsAppAdapter(this, new ArrayList<NewsApp>());
 
         // Set the adapter on the {@link ListView}
@@ -86,7 +86,7 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
         NewsAppListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // Find the current earthquake that was clicked on
+                // Find the current article that was clicked on
                 NewsApp currentNewsApp = mAdapter.getItem(position);
 
                 // Convert the String URL into a URI object (to pass into the Intent constructor)

@@ -24,7 +24,9 @@ import java.util.List;
 public final class QueryUtils {
 
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
 
@@ -63,8 +65,6 @@ public final class QueryUtils {
     /**
      * Return a list of {@link NewsApp} objects that has been built up from
      * parsing the given JSON response.
-
-
      */
     private static List<NewsApp> extractFeatureFromJson(String newsAppJSON) {
         // If the JSON string is empty or null, then return early.
@@ -82,55 +82,53 @@ public final class QueryUtils {
 
             // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(newsAppJSON);
-            Log.e("HERE", "START JSON: " + baseJsonResponse );
+            Log.e("HERE", "START JSON: " + baseJsonResponse);
             // Extract the JSONArray associated with the key called "features",
             // which represents a list of features (or newsApps).
             JSONObject secondJsonResponse = baseJsonResponse.getJSONObject("response");
-            Log.e("HERE", "SECOND JSON: " + secondJsonResponse );
+            Log.e("HERE", "SECOND JSON: " + secondJsonResponse);
 
             JSONArray newsAppArray = secondJsonResponse.getJSONArray("results");
-            Log.e("HERE RESULTS", "Results: " + newsAppArray );
+            Log.e("HERE RESULTS", "Results: " + newsAppArray);
 
-            //JSONObject properties = currentEarthquake.getJSONObject("properties");
+            // For each NewsApp in the NewsAppArray, create an {@link NewsApp} object
+            for (int i = 0; i < newsAppArray.length(); i++) {
 
-            //JSONObject currentEarthquake = earthquakeArray.getJSONObject(0);
-            //String location = currentEarthquake.getString("webTitle");
-            //Log.e("HERE WebTitle", "Results: " + location );
-
-
-            // For each earthquake in the earthquakeArray, create an {@link NewsApp} object
-           for (int i = 0; i < newsAppArray.length(); i++) {
-
-               Log.e("HERE ", "For Loop ");
+                Log.e("HERE ", "For Loop ");
                 // Get a single newsApp at position i within the list of newsApps
                 JSONObject currentNewsApp = newsAppArray.getJSONObject(i);
 
-                // For a given newsApp, extract the JSONObject associated with the
-                // key called "properties", which represents a list of all properties
-                // for that newsApp.
-                //JSONObject properties = currentEarthquake.getJSONObject("properties");
+                //Get tags array
+                JSONArray currentNewsAppJSONArray = currentNewsApp.getJSONArray("tags");
+                Log.e("HERE TAGS", "Results: " + currentNewsAppJSONArray);
 
-                // Extract the value for the key called "mag"
-               //String section = "section";
-               String section = currentNewsApp.getString("sectionName");
-               Log.e("HERE Section", "Results: " + section );
 
-                // Extract the value for the key called "place"
-                String location = currentNewsApp.getString("webTitle");
+                // get first element in tags array
+                JSONObject authorObject = currentNewsAppJSONArray.getJSONObject(0);
+                Log.e("HERE AUTHOR", "Results: " + authorObject);
 
-                // Extract the value for the key called "time"
-                //long time = properties.getLong("time");
+                //get Author from first element in tags array
+                String author = authorObject.getString("webTitle");
+                Log.e("HERE Author", "Results: " + author);
 
-                // Extract the value for the key called "url"
+
+                //String section = "section";
+                String section = currentNewsApp.getString("sectionName");
+                Log.e("HERE Section", "Results: " + section);
+
+                // Extract the value for the key called "webTitle"
+                String title = currentNewsApp.getString("webTitle");
+
+                // Extract the value for the key called "webUrl"
                 String url = currentNewsApp.getString("webUrl");
 
-               String date = currentNewsApp.getString("webPublicationDate");
-               Log.e("HERE DATE", "Results: " + date );
+                String date = currentNewsApp.getString("webPublicationDate");
+                Log.e("HERE DATE", "Results: " + date);
 
 
-               // Create a new {@link NewsApp} object with the magnitude, location, time,
+                // Create a new {@link NewsApp} object with the section, title, date, author
                 // and url from the JSON response.
-                NewsApp newsApp = new NewsApp(section, location, url, date);
+                NewsApp newsApp = new NewsApp(section, title, url, date, author);
 
                 // Add the new {@link NewsApp} to the list of newsApps.
                 newsApps.add(newsApp);
@@ -221,4 +219,4 @@ public final class QueryUtils {
         return output.toString();
     }
 
-    }
+}
