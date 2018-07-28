@@ -94,22 +94,34 @@ public final class QueryUtils {
             // For each NewsApp in the NewsAppArray, create an {@link NewsApp} object
             for (int i = 0; i < newsAppArray.length(); i++) {
 
-                Log.e("HERE ", "For Loop ");
+                Log.e("HERE ", "For Loop newsAppArray length = " + newsAppArray.length());
                 // Get a single newsApp at position i within the list of newsApps
                 JSONObject currentNewsApp = newsAppArray.getJSONObject(i);
+                Log.e("HERE ", "currentNewsApp = " + currentNewsApp);
 
                 //Get tags array
                 JSONArray currentNewsAppJSONArray = currentNewsApp.getJSONArray("tags");
                 Log.e("HERE TAGS", "Results: " + currentNewsAppJSONArray);
 
+                String author;
 
-                // get first element in tags array
-                JSONObject authorObject = currentNewsAppJSONArray.getJSONObject(0);
-                Log.e("HERE AUTHOR", "Results: " + authorObject);
+                if (currentNewsAppJSONArray.length() == 0){
 
-                //get Author from first element in tags array
-                String author = authorObject.getString("webTitle");
-                Log.e("HERE Author", "Results: " + author);
+                    author = "unknown";
+                    Log.e("HERE TAGS", "NO AUTHOR ");
+
+                }else{
+                    JSONObject authorObject = currentNewsAppJSONArray.getJSONObject(0);
+                    Log.e("HERE AUTHOR", "No Author" );
+
+                    author = authorObject.getString("webTitle");
+                    Log.e("HERE Author", "Results: " + author);
+                }
+
+
+
+
+
 
 
                 //String section = "section";
@@ -216,6 +228,7 @@ public final class QueryUtils {
                 line = reader.readLine();
             }
         }
+        Log.e("here", "STRING BUILDER" + output.toString());
         return output.toString();
     }
 

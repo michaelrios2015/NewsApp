@@ -17,12 +17,16 @@ package com.example.android.newsapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -43,8 +47,10 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
     /**
      * URL for Guardian data from the Guardian API
      */
-    private static final String USGS_REQUEST_URL =
-            "https://content.guardianapis.com/search?section=technology&show-tags=contributor&show-fields=thumbnail&api-key=test";
+    private static final String USGS_REQUEST_URL ="https://content.guardianapis.com/search?";
+
+
+            //"https://content.guardianapis.com/search?sections&show-tags=contributor&show-fields=thumbnail&api-key=0c3390e8-f337-4ad6-a644-2221603f91c6";
 
 
     /**
@@ -130,10 +136,44 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
 
 
     @Override
+    // onCreateLoader instantiates and returns a new Loader for the given ID
     public Loader<List<NewsApp>> onCreateLoader(int i, Bundle bundle) {
-        // Create a new loader for the given URL
-        Log.e("LOAD", "Creating");
-        return new NewsAppLoader(this, USGS_REQUEST_URL);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // getString retrieves a String value from the preferences. The second parameter is the default value for this preference.
+        String minMagnitude = sharedPrefs.getString(
+                getString(R.string.settings_min_magnitude_key),
+                getString(R.string.settings_min_magnitude_default));
+
+        String orderBy  = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default)
+
+        );
+
+        Log.e("HERE", "OrderBy" + orderBy);
+
+
+        // parse breaks apart the URI string that's passed into its parameter
+        Uri baseUri = Uri.parse(USGS_REQUEST_URL);
+
+        // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        // Append query parameter and its value. For example, the `format=geojson`
+        uriBuilder.appendQueryParameter("section", minMagnitude);
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
+        uriBuilder.appendQueryParameter("show-fields", "thumbnail");
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+        uriBuilder.appendQueryParameter("api-key", "Test");
+
+
+        //https://content.guardianapis.com/search?section=technology&show-tags=contributor&show-fields=thumbnail&api-key=0c3390e8-f337-4ad6-a644-2221603f91c6
+        //"https://content.guardianapis.com/search?sections&show-tags=contributor&show-fields=thumbnail&api-key=0c3390e8-f337-4ad6-a644-2221603f91c6";
+        // Return the completed uri `http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&limit=10&minmag=minMagnitude&orderby=time
+        Log.e("HERE", "URI" + uriBuilder.toString());
+        return new NewsAppLoader(this, uriBuilder.toString());
 
     }
 
@@ -161,6 +201,26 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
         Log.e("LOAD", "Reset");
         mAdapter.clear();
     }
+
+    @Override
+    // This method initialize the contents of the Activity's options menu.
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the Options Menu we specified in XML
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 
 }
