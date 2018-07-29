@@ -27,23 +27,23 @@
     <string name="no_internet_connection">No internet connection.</string>
 
     <string name="settings_menu_item">Settings</string>
-    <string name="settings_title">Earthquake Settings</string>
+    <string name="settings_title">NewsApp Settings</string>
 
-    <string name="settings_min_magnitude_label">Minimum Magnitude</string>
-    <string name="settings_min_magnitude_key" translatable="false">min_magnitude</string>
-    <string name="settings_min_magnitude_default" translatable="false">technology</string>
+    <string name="settings_section_label">Section</string>
+    <string name="settings_section_key" translatable="false">Section</string>
+    <string name="settings_section_default" translatable="false">technology</string>
 
     <!-- Strings For Order-By Preference [CHAR LIMIT=30] -->
     <string name="settings_order_by_label">Order By</string>
     <string name="settings_order_by_key" translatable="false">order_by</string>
-    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_magnitude_value</string>
+    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_date_value</string>
 
-    <!-- Label for order-by magnitude option [CHAR LIMIT=20] -->
-    <string name="settings_order_by_magnitude_label">jewest</string>
-    <string name="settings_order_by_magnitude_value" translatable="false">oldest</string>
+    <!-- Label for order-by oldest option [CHAR LIMIT=20] -->
+    <string name="settings_order_by_date_label">Oldest</string>
+    <string name="settings_order_by_date_value" translatable="false">oldest</string>
 
-    <!-- Label for order-by most recent option [CHAR LIMIT=20] -->
-    <string name="settings_order_by_most_recent_label">Most Recent</string>
-    <string name="settings_order_by_most_recent_value" translatable="false">newest</string>
+    <!-- Label for order-by newest option [CHAR LIMIT=20] -->
+    <string name="settings_order_newest_recent_label">Newest</string>
+    <string name="settings_order_by_newest_value" translatable="false">newest</string>
 
 </resources>

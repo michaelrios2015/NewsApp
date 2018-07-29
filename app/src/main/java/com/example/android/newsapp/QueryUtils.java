@@ -82,46 +82,44 @@ public final class QueryUtils {
 
             // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(newsAppJSON);
-            Log.e("HERE", "START JSON: " + baseJsonResponse);
-            // Extract the JSONArray associated with the key called "features",
-            // which represents a list of features (or newsApps).
+            //Log.e("HERE", "START JSON: " + baseJsonResponse);
+
+            // Extract the JSONArray associated with the key called "response",
+            // which represents a list of respones (or newsApps).
             JSONObject secondJsonResponse = baseJsonResponse.getJSONObject("response");
-            Log.e("HERE", "SECOND JSON: " + secondJsonResponse);
+            //Log.e("HERE", "SECOND JSON: " + secondJsonResponse);
 
             JSONArray newsAppArray = secondJsonResponse.getJSONArray("results");
-            Log.e("HERE RESULTS", "Results: " + newsAppArray);
+            //Log.e("HERE RESULTS", "Results: " + newsAppArray);
 
             // For each NewsApp in the NewsAppArray, create an {@link NewsApp} object
             for (int i = 0; i < newsAppArray.length(); i++) {
 
-                Log.e("HERE ", "For Loop newsAppArray length = " + newsAppArray.length());
+                //Log.e("HERE ", "For Loop newsAppArray length = " + newsAppArray.length());
+
                 // Get a single newsApp at position i within the list of newsApps
                 JSONObject currentNewsApp = newsAppArray.getJSONObject(i);
-                Log.e("HERE ", "currentNewsApp = " + currentNewsApp);
+                //Log.e("HERE ", "currentNewsApp = " + currentNewsApp);
 
                 //Get tags array
                 JSONArray currentNewsAppJSONArray = currentNewsApp.getJSONArray("tags");
-                Log.e("HERE TAGS", "Results: " + currentNewsAppJSONArray);
+                //Log.e("HERE TAGS", "Results: " + currentNewsAppJSONArray);
 
                 String author;
 
-                if (currentNewsAppJSONArray.length() == 0){
+                //checks to see in tag array exisits or not, if it does get's authors name
+                if (currentNewsAppJSONArray.length() == 0) {
 
                     author = "unknown";
-                    Log.e("HERE TAGS", "NO AUTHOR ");
+                    //Log.e("HERE TAGS", "NO AUTHOR ");
 
-                }else{
+                } else {
                     JSONObject authorObject = currentNewsAppJSONArray.getJSONObject(0);
-                    Log.e("HERE AUTHOR", "No Author" );
+                    //Log.e("HERE AUTHOR", "No Author" );
 
                     author = authorObject.getString("webTitle");
-                    Log.e("HERE Author", "Results: " + author);
+                    //Log.e("HERE Author", "Results: " + author);
                 }
-
-
-
-
-
 
 
                 //String section = "section";
@@ -198,7 +196,7 @@ public final class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the gaurdian JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the Guardian JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -228,7 +226,7 @@ public final class QueryUtils {
                 line = reader.readLine();
             }
         }
-        Log.e("here", "STRING BUILDER" + output.toString());
+        //Log.e("here", "STRING BUILDER" + output.toString());
         return output.toString();
     }
 

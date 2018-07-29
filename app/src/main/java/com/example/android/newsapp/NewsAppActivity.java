@@ -45,13 +45,9 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
     private static final String LOG_TAG = NewsAppActivity.class.getName();
 
     /**
-     * URL for Guardian data from the Guardian API
+     * Beginning of URI for Guardian data from the Guardian API
      */
-    private static final String USGS_REQUEST_URL ="https://content.guardianapis.com/search?";
-
-
-            //"https://content.guardianapis.com/search?sections&show-tags=contributor&show-fields=thumbnail&api-key=0c3390e8-f337-4ad6-a644-2221603f91c6";
-
+    private static final String USGS_REQUEST_URL = "https://content.guardianapis.com/search?";
 
     /**
      * Constant value for the NewsApp loader ID. We can choose any integer.
@@ -142,17 +138,17 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // getString retrieves a String value from the preferences. The second parameter is the default value for this preference.
-        String minMagnitude = sharedPrefs.getString(
-                getString(R.string.settings_min_magnitude_key),
-                getString(R.string.settings_min_magnitude_default));
+        String section = sharedPrefs.getString(
+                getString(R.string.settings_section_key),
+                getString(R.string.settings_section_default));
 
-        String orderBy  = sharedPrefs.getString(
+        String orderBy = sharedPrefs.getString(
                 getString(R.string.settings_order_by_key),
                 getString(R.string.settings_order_by_default)
 
         );
 
-        Log.e("HERE", "OrderBy" + orderBy);
+        //Log.e("HERE", "OrderBy" + orderBy);
 
 
         // parse breaks apart the URI string that's passed into its parameter
@@ -162,17 +158,13 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         // Append query parameter and its value. For example, the `format=geojson`
-        uriBuilder.appendQueryParameter("section", minMagnitude);
+        uriBuilder.appendQueryParameter("section", section);
         uriBuilder.appendQueryParameter("show-tags", "contributor");
         uriBuilder.appendQueryParameter("show-fields", "thumbnail");
         uriBuilder.appendQueryParameter("order-by", orderBy);
-        uriBuilder.appendQueryParameter("api-key", "Test");
+        uriBuilder.appendQueryParameter("api-key", "your-key");
 
-
-        //https://content.guardianapis.com/search?section=technology&show-tags=contributor&show-fields=thumbnail&api-key=0c3390e8-f337-4ad6-a644-2221603f91c6
-        //"https://content.guardianapis.com/search?sections&show-tags=contributor&show-fields=thumbnail&api-key=0c3390e8-f337-4ad6-a644-2221603f91c6";
-        // Return the completed uri `http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&limit=10&minmag=minMagnitude&orderby=time
-        Log.e("HERE", "URI" + uriBuilder.toString());
+        //Log.e("HERE", "URI" + uriBuilder.toString());
         return new NewsAppLoader(this, uriBuilder.toString());
 
     }
@@ -220,7 +212,6 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }
