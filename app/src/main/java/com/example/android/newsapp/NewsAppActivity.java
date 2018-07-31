@@ -67,6 +67,7 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.newsapp_activity);
+        MyApp.initResources(this);
 
 
         // Find a reference to the {@link ListView} in the layout
@@ -162,7 +163,7 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
         uriBuilder.appendQueryParameter("show-tags", "contributor");
         uriBuilder.appendQueryParameter("show-fields", "thumbnail");
         uriBuilder.appendQueryParameter("order-by", orderBy);
-        uriBuilder.appendQueryParameter("api-key", "your-key");
+        uriBuilder.appendQueryParameter("api-key", "0c3390e8-f337-4ad6-a644-2221603f91c6");
 
         //Log.e("HERE", "URI" + uriBuilder.toString());
         return new NewsAppLoader(this, uriBuilder.toString());
@@ -212,6 +213,7 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
 }

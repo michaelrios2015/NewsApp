@@ -45,5 +45,6 @@
     <!-- Label for order-by newest option [CHAR LIMIT=20] -->
     <string name="settings_order_newest_recent_label">Newest</string>
     <string name="settings_order_by_newest_value" translatable="false">newest</string>
+    <string name="unknown">unknown</string>
 
 </resources>

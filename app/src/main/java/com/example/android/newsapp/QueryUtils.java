@@ -1,5 +1,8 @@
 package com.example.android.newsapp;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.res.Resources;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -17,6 +20,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Helper methods related to requesting and receiving earthquake data from USGS.
@@ -92,8 +96,10 @@ public final class QueryUtils {
             JSONArray newsAppArray = secondJsonResponse.getJSONArray("results");
             //Log.e("HERE RESULTS", "Results: " + newsAppArray);
 
+
             // For each NewsApp in the NewsAppArray, create an {@link NewsApp} object
             for (int i = 0; i < newsAppArray.length(); i++) {
+
 
                 //Log.e("HERE ", "For Loop newsAppArray length = " + newsAppArray.length());
 
@@ -105,12 +111,13 @@ public final class QueryUtils {
                 JSONArray currentNewsAppJSONArray = currentNewsApp.getJSONArray("tags");
                 //Log.e("HERE TAGS", "Results: " + currentNewsAppJSONArray);
 
-                String author;
+
+                String author; // = Resources.getSystem().getString(R.string.unknown);
 
                 //checks to see in tag array exisits or not, if it does get's authors name
                 if (currentNewsAppJSONArray.length() == 0) {
 
-                    author = "unknown";
+                    author = MyApp.APP_NAME;//Resources.getSystem().getString(android.R.string.unknown);
                     //Log.e("HERE TAGS", "NO AUTHOR ");
 
                 } else {
@@ -230,4 +237,6 @@ public final class QueryUtils {
         return output.toString();
     }
 
+
 }
+
