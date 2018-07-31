@@ -163,7 +163,7 @@ public class NewsAppActivity extends AppCompatActivity implements LoaderCallback
         uriBuilder.appendQueryParameter("show-tags", "contributor");
         uriBuilder.appendQueryParameter("show-fields", "thumbnail");
         uriBuilder.appendQueryParameter("order-by", orderBy);
-        uriBuilder.appendQueryParameter("api-key", "0c3390e8-f337-4ad6-a644-2221603f91c6");
+        uriBuilder.appendQueryParameter("api-key", "Your-Key");
 
         //Log.e("HERE", "URI" + uriBuilder.toString());
         return new NewsAppLoader(this, uriBuilder.toString());
