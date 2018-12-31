@@ -1,5 +1,7 @@
 Modified from this guy:
 
+Create an app to guide a user around a city or location of your choice!This project is stage 1 of a 2 stage project. For this stage, create an app to display recent news stories on a topic of your choice using an API.
+
 Quake Report App
 ===================================
 
